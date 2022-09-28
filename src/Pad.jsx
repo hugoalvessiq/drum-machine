@@ -16,7 +16,7 @@ function Pad(props) {
   const [sound] = useState(audio);
 
   useEffect(() => {
-    document.addEventListener("keydown", detectKey, false);
+    document.addEventListener("keydown", detectKey);
   }, []);
 
   function Display() {
@@ -25,28 +25,14 @@ function Pad(props) {
 
   const detectKey = (e) => {
     if (e.key.toUpperCase() === keyTrigger) {
-      AddClass(e);
       audioSound();
-      clearClass(e);
+      Display();
     }
   };
 
-  function AddClass(e) {
-    document
-      .getElementById(`${e.key.toUpperCase()}`)
-      .classList.toggle("transform");
-  }
-
-  function clearClass(e) {
-    setTimeout(() => {
-      document
-        .getElementById(`${e.key.toUpperCase()}`)
-        .classList.remove("transform");
-    }, 400);
-  }
-
   const start = () => {
     audioSound();
+    Display();
   };
 
   function audioSound() {
@@ -58,11 +44,8 @@ function Pad(props) {
           audio.volume(15);
           audio.pause();
         })
-        .catch((error) => {
-          
-        });
+        .catch((error) => {});
     }
-    Display();
   }
 
   return (
@@ -72,7 +55,6 @@ function Pad(props) {
       key={letter}
       onClick={start}
       onKeyUpCapture={detectKey}
-      style={{ AddClass }}
     >
       {sound}
       {letter}
